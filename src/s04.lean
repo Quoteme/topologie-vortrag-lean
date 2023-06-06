@@ -25,7 +25,7 @@ def loops (x : X) : set (path x x) := {γ | γ 0 = x ∧ γ 1 = x}
 def is_homotopic_to (γ₁ γ₂ : path x y) : Prop :=
   ∃ (f : path x y → path x y), continuous f ∧ f γ₁ = γ₂
 
-def my_is_simply_connected (U : set X) : Prop :=
+def is_simply_connected (U : set X) [topological_space U] : Prop :=
   is_path_connected U ∧ ∀ (γ : path x x), γ ∈ loops x → is_homotopic_to γ (path.refl x)
 
 

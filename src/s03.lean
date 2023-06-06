@@ -6,7 +6,7 @@ import s01
 import s02
 
 /-
-## 1.2 Wann ist ein topologischer Raum zusammenhängend?
+## 1.2 Wann ist ein topologischer Raum (weg-)zusammenhängend?
 
 Damit ein Raum zusammenhängend ist, muss er eine instanz der Klasse
 `connected_space` sein.

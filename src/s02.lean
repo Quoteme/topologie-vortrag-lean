@@ -15,7 +15,7 @@ analysis.normed_space.basic
 definiert.
 -/
 
-def S2' : set (ℝ × ℝ × ℝ) := { x | ‖x‖ = 1 }
+def S2 : set (ℝ × ℝ × ℝ) := { x | ‖x‖ = 1 }
 
 /-
 Wir haben jedoch noch keine Topologie auf dieser Menge.
@@ -24,11 +24,19 @@ Wir möchten hierfür die Unterraumtopologie von ℝ³ auf S² anwenden.
 
 #check topological_space.induced
 
+instance : topological_space S2 :=
+  let
+    R3 := (by apply_instance : topological_space (ℝ × ℝ × ℝ)),
+    i : S2 → ℝ×ℝ×ℝ := subtype.val
+  in
+  topological_space.induced i R3
 
-def S2 : topological_space S2' :=
-  -- inklusion von S² in ℝ³
-  let i : ↥S2' → ℝ × ℝ × ℝ := subtype.val in
-  topological_space.induced i (by apply_instance : topological_space (ℝ × ℝ × ℝ))
+-- alternativ:
+--
+-- def S2 : topological_space S2' :=
+--   -- inklusion von S² in ℝ³
+--   let i : ↥S2' → ℝ × ℝ × ℝ := subtype.val in
+--   topological_space.induced i (by apply_instance : topological_space (ℝ × ℝ × ℝ))
 --                                ↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 -- Hiermit möchten wir die kanonische topologie auf ℝ³ verwenden.
 
