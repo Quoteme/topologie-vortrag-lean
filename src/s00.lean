@@ -17,6 +17,6 @@ Hierfür werden wir folgendermaßen vorgehen:
   1.2. Wann ist ein topologischer Raum (weg-)zusammenhängend? [./s03.lean]
   1.3. Wann ist ein topologischer Raum einfach-zusammenhängend? [./s04.lean]
 2. Beweis der Theoreme
-  2.1. $S^2$ ist einfach-zusammenhängend.
-  2.2. Jeder zusammenziehbare Raum ist einfach-zusammenhängend
+  2.1. $S^2$ ist einfach-zusammenhängend. [./s05.lean]
+  2.2. Jeder zusammenziehbare Raum ist einfach-zusammenhängend [./s06.lean]
 -/
