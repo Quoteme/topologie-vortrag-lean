@@ -88,7 +88,10 @@ begin
           {
             -- wenn y ≠ (1,0,0)
             rw if_neg h,
-            sorry,
+            -- wir möchten hier zeigen, dass wenn wir y durch die Norm von y teilen, dass y wieder rauskommt, wenn y in S2 liegt
+            simp [S2] at hy,
+            rw hy,
+            simp,
           },
         end,
         -- target' := _,
