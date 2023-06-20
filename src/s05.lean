@@ -80,12 +80,9 @@ begin
           -- Wir haben zwei fälle: y = (1,0,0) und y ≠ (1,0,0)
           -- Wir müssen einen extra Fall für y = (1,0,0) machen, unser Pfad in diesem fall besonders definiert werden muss,
           --  damit keine Singularität auftritt.
-          cases eq_or_ne y (1, 0, 0) with h h,
+          cases eq_or_ne y (-1, 0, 0) with h h,
           {
-            -- wenn y = (1,0,0)
-            rw h,
-            unfold norm,
-            simp,
+            simp [h],
           },
           {
             -- wenn y ≠ (1,0,0)
