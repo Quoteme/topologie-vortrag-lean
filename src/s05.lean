@@ -44,6 +44,10 @@ instance : metric_space (ℝ×ℝ×ℝ) := by apply_instance
 example : @ is_simply_connected _ _ (1,0,0) S2 _ :=
 begin
   unfold is_simply_connected,
+  -- Wir müssen per definition von `is_simply_connected` zeigen, dass
+  -- * `is_path_connected S2` gilt
+  -- * `∀ (γ : path (1, 0, 0) (1, 0, 0)), γ ∈ loops (1, 0, 0) → is_homotopic_to γ (path.refl (1, 0, 0))`
+  --   Also, jede Schleife von (1,0,0) homotop zu `path.refl (1,0,0)` (dem konstanten Pfad bei (1,0,0)) ist
   split,
   {
     unfold is_path_connected,
@@ -78,7 +82,8 @@ begin
           simp,
           -- Hier möchten wir zeigen, dass wir auf jeden Fall am Ende unseres Pfades bei y ankommen.
           -- Wir haben zwei fälle: y = (1,0,0) und y ≠ (1,0,0)
-          -- Wir müssen einen extra Fall für y = (1,0,0) machen, unser Pfad in diesem fall besonders definiert werden muss,
+          -- Wir müssen einen extra Fall für y = (1,0,0) machen,
+          -- unser Pfad in diesem fall besonders definiert werden muss,
           --  damit keine Singularität auftritt.
           cases eq_or_ne y (-1, 0, 0) with h h,
           {
@@ -87,7 +92,8 @@ begin
           {
             -- wenn y ≠ (1,0,0)
             rw if_neg h,
-            -- wir möchten hier zeigen, dass wenn wir y durch die Norm von y teilen, dass y wieder rauskommt, wenn y in S2 liegt
+            -- wir möchten hier zeigen, dass wenn wir y durch die Norm von y teilen,
+            -- dass y wieder rauskommt, wenn y in S2 liegt
             simp [S2] at hy,
             rw hy,
             simp,
