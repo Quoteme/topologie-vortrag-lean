@@ -5,6 +5,8 @@ import analysis.inner_product_space.basic
 import analysis.normed_space.basic
 import data.set.basic
 import algebraic_topology.fundamental_groupoid.simply_connected
+import data.real.basic
+import analysis.special_functions.trigonometric.basic
 import s01
 import s02
 import s03
@@ -100,12 +102,12 @@ begin
         -- sie soll für t = 0 den wert (1,0,0) haben und für t = 1 den wert y
         -- wir müssen auf jeden Fall für jeden wert t zwischen 0 und 1 einen wert p in ℝ×ℝ×ℝ haben, mit ‖p‖ = 1
         to_fun := λ t,
-          if y = (1,0,0) then
-            (1,0,0)
+          if y = (-1,0,0) then
+            (real.cos (coe t * real.pi), real.sin (coe t * real.pi), 0)
           else
             let v := (1 - (coe t : ℝ)) • (1,0,0) + (coe t : ℝ) • y in
             (1 / ‖v‖) • v,
-        continuous_to_fun := sorry,
+        continuous_to_fun := by sorry,
       },
       use f,
       intro y',
