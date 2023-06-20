@@ -44,19 +44,24 @@ begin
       intro y,
       intro hy,
       -- decompose y into y1, y2, y3
-      -- cases y with y1 y23,
-      -- cases y23 with y2 y3,
-      -- let y := (y1,y2,y3),
+      cases y with y1 y23,
+      cases y23 with y2 y3,
+      let y := (y1,y2,y3),
       unfold joined_in,
       -- Wir möchten nun den Pfad von (1,0,0) nach y konstruieren.
       let f : path (1,0,0) y := {
         -- betrachte die Definition von `path` mit <kbd>ctrl</kbd>+<kbd>click</kbd> auf `path`
         -- wir brauchen also auf jeden fall:
         source' := by simp,
-        target' := sorry,
+        target' := by simp,
         -- target' := _,
         -- außerdem steht dort `extends C(I, X)`, also brauchen wir noch:
-        to_fun := λ t, (1,0,0),
+        -- hier soll eine funktion definiert werden, welche [0,1] nach ℝ×ℝ×ℝ geht
+        -- sie soll für t = 0 den wert (1,0,0) haben und für t = 1 den wert y
+        -- wir müssen auf jeden Fall für jeden wert t zwischen 0 und 1 einen wert p in ℝ×ℝ×ℝ haben, mit ‖p‖ = 1
+        to_fun := λ t,
+          let v := (1 - (coe t : ℝ)) • (1,0,0) + (coe t : ℝ) • y in
+          (1 / ‖v‖) • v,
         continuous_to_fun := by continuity,
       },
       use f,
