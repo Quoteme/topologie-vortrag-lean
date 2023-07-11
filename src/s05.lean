@@ -223,6 +223,9 @@ begin
         -- Teile auf in die Faktoren:
         -- 1. ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹
         -- 2. (1 - ↑x)
+        -- 🔥: hier zuest `continuous.` auf [https://leanprover-community.github.io/mathlib_docs/] suchen
+        --     dann `continuous.mul` finden 
+        --     dann danach auf github suchen [https://github.com/search?utf8=%E2%9C%93&q=continuous.mul&type=code]
         apply continuous.mul,
         {
           -- 1️⃣

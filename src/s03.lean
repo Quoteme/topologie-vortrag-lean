@@ -94,20 +94,24 @@ example : is_path_connected I :=
           }
         },
         {
-          -- TODO: Hier sollte noch gezeigt werden, dass 
-          sorry
+          -- zeige hier, dass $y$ kleiner gleich 1 ist, wenn es aus $I$ kommt
+          simp [I] at h,
+          rcases h with ⟨h1, h2⟩,
+          -- convert y' into an element of I
+          have temp := y'.property,
+          have temp2 := temp.2,
+          simp at temp2,
+          -- verwende h2 und temp2 um zu zeigen, dass y' * y kleiner gleich 1 ist
+          apply mul_le_one, --👎️🙅‍♂️ Wie sollte man hierdrauf kommen?
+          {
+            assumption,
+          },
+          {
+            assumption,
+          },
+          {
+            linarith,
+          }
         },
       end
   end
-
--- example : is_connected I := 
---   begin
---   split,
---     begin
---       -- wir zeigen, dass `I` nicht leer ist, indem wir ein Element angeben.
---       use ⟨0, by split; linarith⟩, 
---     end,
---     begin
---       
---     end
---   end
