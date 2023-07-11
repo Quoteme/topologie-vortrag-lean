@@ -32,15 +32,6 @@ example : topological_space (ℝ×ℝ×ℝ) := by apply_instance
 -- definiere ℝ×ℝ×ℝ als metrischen Raum
 instance : metric_space (ℝ×ℝ×ℝ) := by apply_instance
 
--- Zeige, dass die Norm ℝ×ℝ×ℝ → S2 stetig ist
--- lemma norm_continuous_on_S2 : continuous_on (norm : (ℝ × ℝ × ℝ) → ℝ) S2 :=
--- begin
---   rw continuous_on_iff_continuous_restrict,
---   apply continuous_norm.comp,
---   --apply continuous_subtype_val.continuous_on,
---   sorry
--- end
-
 lemma north_pole_in_S2 : ((1,0,0):ℝ×ℝ×ℝ) ∈ S2 :=
 begin
   -- zeige, dass ‖(1,0,0)‖ = 1 ist
@@ -50,6 +41,7 @@ begin
   simp,
 end
 
+-- Definiere einen Pfad vom 
 noncomputable
 def path_from_north_pole_to_point (y:ℝ×ℝ×ℝ) : ↥(I) → ℝ×ℝ×ℝ := λ t,
   if y = (-1,0,0) then
@@ -60,7 +52,7 @@ def path_from_north_pole_to_point (y:ℝ×ℝ×ℝ) : ↥(I) → ℝ×ℝ×ℝ :
 
 lemma north_pole_is_start_of_path_from_north_pole_to_point (y: ℝ×ℝ×ℝ) (hy: y ∈ S2): path_from_north_pole_to_point y (0 : unit_interval) = (1, 0, 0) :=
 begin
-  -- Hier möchten wir zeigen, dass (1,0,0) die Quelle von f ist.
+  -- Hier möchten wir zeigen, dass (1,0,0) die Quelle von `path_from_north_pole_to_point` ist.
   unfold path_from_north_pole_to_point,
   simp,
   unfold norm,
@@ -89,6 +81,185 @@ begin
   },
 end
 
+lemma path_from_northpole_to_point_in_S2 (y: ℝ×ℝ×ℝ) (hy: y ∈ S2): ∀ t : ↥unit_interval, path_from_north_pole_to_point y t ∈ S2 :=
+begin
+  unfold path_from_north_pole_to_point,
+  cases eq_or_ne y (-1, 0, 0) with h h,
+  {
+    -- wenn y = (-1,0,0)
+    -- dann ist die Funktion einfach die konstante Funktion (1,0,0)
+    -- und diese ist stetig
+    simp [h],
+    -- wir müssen zeigen, dass f in jeder der drei koodinaten stetig ist
+    -- wir werden dabei zuerst auf die Zwei verschiedenen Fälle von f aufteilen
+    -- 
+    -- 1. y = (-1,0,0)
+    -- 2. y ≠ (-1,0,0)
+
+    -- wandle 
+    -- ```
+    -- ∀ (x : ℝ), 0 ≤ x →  ...
+    -- ```
+    -- in die assumption `hx : 0 ≤ x` um
+    intros x hx₁ hx₂,
+
+
+    -- zeige, dass
+    -- ```
+    -- (real.cos (x * real.pi), real.sin (x * real.pi), 0) ∈ S2
+    -- ```
+
+    unfold S2,
+    simp,
+
+    -- split,
+    -- {
+    --   -- wir müssen zeigen, dass die 1. koodinate stetig ist
+    --   -- zeige, dass die cosinus funktion stetig ist
+    --   by continuity,
+    -- },
+    -- {
+    --   split,
+    --   {
+    --     -- wir müssen zeigen, dass die 2. koodinate stetig ist
+    --     -- zeige, dass die sinus funktion stetig ist
+    --     by continuity,
+    --   },
+    --   {
+    --     -- wir müssen zeigen, dass die 3. koodinate stetig ist
+    --     -- Zeige, dass die konstante 0 funktion stetig ist
+    --     by continuity,
+    --   }
+    -- },
+    sorry
+  },
+  {
+  sorry,
+  }
+end
+
+-- Zeige, dass das inverse der norm stetig ist, wenn der vektor in der norm nicht 0 wird
+lemma norm_inv_continuous (x: ℝ×ℝ×ℝ) (hx: x ≠ (0,0,0)):  continuous (λ x : ℝ × ℝ × ℝ, ‖x‖⁻¹ : ℝ × ℝ × ℝ → ℝ) :=
+begin
+  sorry,
+end
+
+lemma path_from_north_pole_to_point_is_continuous (y: ℝ×ℝ×ℝ) (hy: y ∈ S2): continuous (path_from_north_pole_to_point y) :=
+begin
+  -- Wir möchten zeigen, dass die Funktion stetig ist.
+  -- weil diese als if-then-else definiert ist, müssen wir zwei fälle betrachten:
+  unfold path_from_north_pole_to_point,
+  cases eq_or_ne y (-1, 0, 0) with h h,
+  {
+    -- wenn y = (-1,0,0)
+    -- dann ist die Funktion einfach die konstante Funktion (1,0,0)
+    -- und diese ist stetig
+    simp [h],
+    -- wir müssen zeigen, dass f in jeder der drei koodinaten stetig ist
+    -- wir werden dabei zuerst auf die Zwei verschiedenen Fälle von f aufteilen
+    -- 
+    -- 1. y = (-1,0,0)
+    -- 2. y ≠ (-1,0,0)
+    split,
+    {
+      -- wir müssen zeigen, dass die 1. koodinate stetig ist
+      -- zeige, dass die cosinus funktion stetig ist
+      by continuity,
+    },
+    {
+      split,
+      {
+        -- wir müssen zeigen, dass die 2. koodinate stetig ist
+        -- zeige, dass die sinus funktion stetig ist
+        by continuity,
+      },
+      {
+        -- wir müssen zeigen, dass die 3. koodinate stetig ist
+        -- Zeige, dass die konstante 0 funktion stetig ist
+        by continuity,
+      }
+    },
+  },
+  {
+  -- simp [h],
+  -- apply continuous.add,
+  -- simp [h],
+  
+  -- sorry,
+    simp [h],
+    -- wenn y ≠ (-1,0,0)
+    -- dann ist die Funktion etwas komplizierter definiert:
+    --
+    -- ```
+    -- continuous (λ (t : ↥unit_interval), (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0) + ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
+    -- ```
+    --
+    -- wir müssen zeigen, dass sie stetig ist
+    -- Wir verwenden `continuous.add`, um zu zeigen, dass die Funktion stetig ist.
+    -- Der Trick ist hier, dass unsere Funktion :
+    -- (λ (t : ↥unit_interval), (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0) + ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
+    -- in die Summanden
+    -- 1. (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0)
+    -- 2. ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
+    -- aufgeteilt werden kann.
+    apply continuous.add,
+    {
+      -- # Fall 1
+      -- 1. (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0)
+      --
+      -- Schreiben wir dies wie einen normalen (Spalten-)Vektor 
+      -- 
+      -- / ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t) \
+      -- |                    0                   |
+      -- \                    0                   /
+      --
+      -- wir möchten also die Stetigkeit in jeder der einzelnen
+      -- Koordinaten zeigen
+      simp [h], -- hiermit spalten wir die `continuous (x,y,z)` in eine `continuous x` und `continuous y` und `continuous z` auf
+      split,
+      {
+        -- continuous (λ (x : ↥unit_interval), ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹ * (1 - ↑x))
+        --
+        -- Teile auf in die Faktoren:
+        -- 1. ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹
+        -- 2. (1 - ↑x)
+        apply continuous.mul,
+        {
+          -- 1️⃣
+          -- Wir möchten zeigen, dass
+          --   ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹
+          -- die invertierte Norm stetig ist
+          sorry,
+        },
+        {
+          -- 2. (1 - ↑x)
+          -- zeige, dass die Funktion stetig ist
+          by continuity,
+          -- FERTIG :)
+        }
+      },
+      {
+        -- Zeigen, dass die konstante Nullfunktion stetig ist
+        by continuity,
+      }
+    },
+    {
+      -- 2️⃣
+      -- Wir möchten nun zeigen, dass
+      --    ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
+      -- stetig ist.
+      apply continuous.smul,
+      {
+        sorry
+      },
+      {
+        -- zeigen, dass skalarmultiplikation stetig ist
+        by continuity,
+      }
+    }
+  }
+end
+
 lemma S2_path_connected : is_path_connected S2 :=
 begin
     unfold is_path_connected,
@@ -114,113 +285,18 @@ begin
         -- sie soll für t = 0 den wert (1,0,0) haben und für t = 1 den wert y
         -- wir müssen auf jeden Fall für jeden wert t zwischen 0 und 1 einen wert p in ℝ×ℝ×ℝ haben, mit ‖p‖ = 1
         to_fun := path_from_north_pole_to_point y,
-        continuous_to_fun := begin
-          -- Wir möchten zeigen, dass die Funktion stetig ist.
-          -- weil diese als if-then-else definiert ist, müssen wir zwei fälle betrachten:
-          sorry,
-          -- cases eq_or_ne y (-1, 0, 0) with h h,
-          -- {
-          --   -- wenn y = (-1,0,0)
-          --   -- dann ist die Funktion einfach die konstante Funktion (1,0,0)
-          --   -- und diese ist stetig
-          --   simp [h],
-          --   -- wir müssen zeigen, dass f in jeder der drei koodinaten stetig ist
-          --   -- wir werden dabei zuerst auf die Zwei verschiedenen Fälle von f aufteilen
-          --   -- 
-          --   -- 1. y = (-1,0,0)
-          --   -- 2. y ≠ (-1,0,0)
-          --   split,
-          --   {
-          --     -- wir müssen zeigen, dass die 1. koodinate stetig ist
-          --     -- zeige, dass die cosinus funktion stetig ist
-          --     by continuity,
-          --   },
-          --   {
-          --     split,
-          --     {
-          --       -- wir müssen zeigen, dass die 2. koodinate stetig ist
-          --       -- zeige, dass die sinus funktion stetig ist
-          --       by continuity,
-          --     },
-          --     {
-          --       -- wir müssen zeigen, dass die 3. koodinate stetig ist
-          --       -- Zeige, dass die konstante 0 funktion stetig ist
-          --       by continuity,
-          --     }
-          --   },
-          -- },
-          -- {
-          --   simp [h],
-          --   -- wenn y ≠ (-1,0,0)
-          --   -- dann ist die Funktion etwas komplizierter definiert:
-          --   --
-          --   -- ```
-          --   -- continuous (λ (t : ↥unit_interval), (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0) + ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
-          --   -- ```
-          --   --
-          --   -- wir müssen zeigen, dass sie stetig ist
-
-          --   -- Wir verwenden `continuous.add`, um zu zeigen, dass die Funktion stetig ist.
-          --   -- Der Trick ist hier, dass unsere Funktion :
-          --   -- (λ (t : ↥unit_interval), (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0) + ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
-          --   -- in die Summanden
-          --   -- 1. (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0)
-          --   -- 2. ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
-          --   -- aufgeteilt werden kann.
-          --   apply continuous.add,
-          --   {
-          --     -- # Fall 1
-          --     -- 1. (‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t), 0, 0)
-          --     --
-          --     -- Schreiben wir dies wie einen normalen (Spalten-)Vektor 
-          --     -- 
-          --     -- / ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ * (1 - ↑t) \
-          --     -- |                    0                   |
-          --     -- \                    0                   /
-          --     --
-          --     -- wir möchten also die Stetigkeit in jeder der einzelnen
-          --     -- Koordinaten zeigen
-          --     simp [h], -- hiermit spalten wir die `continuous (x,y,z)` in eine `continuous x` und `continuous y` und `continuous z` auf
-          --     split,
-          --     {
-          --       -- continuous (λ (x : ↥unit_interval), ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹ * (1 - ↑x))
-          --       --
-          --       -- Teile auf in die Faktoren:
-          --       -- 1. ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹
-          --       -- 2. (1 - ↑x)
-          --       apply continuous.mul,
-          --       {
-          --         -- 1. ‖(1 - ↑x, 0, 0) + ↑x • y‖⁻¹
-          --         -- zeige, dass die Norm stetig ist
-          --         sorry,
-          --       },
-          --       {
-          --         -- 2. (1 - ↑x)
-          --         -- zeige, dass die Funktion stetig ist
-          --         by continuity,
-          --         -- FERTIG :)
-          --       }
-          --     },
-          --     {
-          --       sorry,
-          --     }
-          --   },
-          --   {
-          --     -- 2. ‖(1 - ↑t, 0, 0) + ↑t • y‖⁻¹ • ↑t • y)
-          --     sorry
-          --   }
-          -- }
-        end,
+        continuous_to_fun := by exact path_from_north_pole_to_point_is_continuous y hy,
       },
       use f,
       intro y',
       simp,
       unfold S2,
       simp,
-      -- wir müssen hier zeigen, dass f(t) immer in S2 liegt
-      sorry,
+      -- wir müssen hier zeigen, dass f(t) immer in S2 liegt (also ‖f(t)‖ = 1
+      -- sorry,
       -- unfold norm,
       -- simp,
+      apply path_from_northpole_to_point_in_S2 y hy,
     }
 end
 
@@ -236,7 +312,6 @@ begin
     continuous_to_fun := by continuity,
   },
   let f := (λ γ': path (1,0,0) (1,0,0), trivialPath),
-  -- warum klappt es für f' aber nicht für f?
   let f' := (λ x, x),
   use f',
   split,
@@ -249,14 +324,16 @@ begin
   }
 end
 
+-- 🛑 Hier ist das HAUPTRESULTAT: S2 ist einfach-zusammenhängend
 example : @ is_simply_connected _ _ (1,0,0) S2 _ :=
 begin
   unfold is_simply_connected,
-  -- Wir müssen per definition von `is_simply_connected` zeigen, dass
+  -- Wir müssen per Definition von `is_simply_connected` zeigen, dass
   -- * `is_path_connected S2` gilt
   -- * `∀ (γ : path (1, 0, 0) (1, 0, 0)), γ ∈ loops (1, 0, 0) → is_homotopic_to γ (path.refl (1, 0, 0))`
   --   Also, jede Schleife von (1,0,0) homotop zu `path.refl (1,0,0)` (dem konstanten Pfad bei (1,0,0)) ist
   split,
-  exact S2_path_connected,
-  exact S2_loops_nullhomotopic
+  exact S2_path_connected, -- 1. Teil
+  exact S2_loops_nullhomotopic, -- 2. Teil
+  -- FERTIG :)
 end
