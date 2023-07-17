@@ -103,6 +103,8 @@ example : is_path_connected I :=
           simp at temp2,
           -- verwende h2 und temp2 um zu zeigen, dass y' * y kleiner gleich 1 ist
           apply mul_le_one, --👎️🙅‍♂️ Wie sollte man hierdrauf kommen?
+                            -- andere Beweisassistenten machen das für einen... [https://coq.inria.fr/]
+                            -- LEAN AI assisstant 🤖?
           {
             assumption,
           },
